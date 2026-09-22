@@ -53,9 +53,9 @@ MODELS_CONFIG_PATH = Path(__file__).resolve().parent / "models.json"
 _DEFAULT_GATEWAY = "http://127.0.0.1:8040"
 _DEFAULT_MODELS = [
     {"route": "llmops", "model": "claude-4-6-opus"},
-    {"route": "mercury/kimi"},
-    {"route": "mercury/deepseek"},
-    {"route": "mercury/qwen27b"},
+    {"route": "local/kimi"},
+    {"route": "local/deepseek"},
+    {"route": "local/qwen27b"},
 ]
 
 
@@ -437,7 +437,7 @@ def main():
                            help="Only skills without related/category (default)")
     extract_p.add_argument("--file", type=str, help="Process specific file")
     extract_p.add_argument("--model", type=str,
-                           help="LLM route override (e.g. mercury/qwen27b)")
+                           help="LLM route override (e.g. local/qwen27b)")
 
     # apply
     apply_p = sub.add_parser("apply", help="Apply proposals to frontmatter")
