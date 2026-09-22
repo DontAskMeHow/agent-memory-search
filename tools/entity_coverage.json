@@ -1,0 +1,4 @@
+{
+  "_comment": "Понятия, покрытые каноническими SKILL-записями вместо отдельных entity-записей (источник для lint missing_entity и entity-graph). Ключ — понятие из поля entities frontmatter, значение — каталог канонической записи.",
+  "NetFlow": "entity-network"
+}

@@ -1,0 +1,6 @@
+httpx>=0.27
+snowballstemmer>=2.2
+requests>=2.31
+# optional
+# sqlite-vec  — vector search (gemfile об identity=), install separately
+# fastmcp    — session-search MCP server

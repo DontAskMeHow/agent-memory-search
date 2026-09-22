@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.search/
+.graph/
+.index/
+*.db
+*.db-shm
+*.db-wal
+config/skills-gateway.json
+tools/models.json

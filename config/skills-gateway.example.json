@@ -1,0 +1,5 @@
+{
+  "_comment": "Пример локального конфига адресов моделей. Скопируйте в ~/.config/skills-gateway.json (или задайте env SKILLS_EMBEDDING_URL / SKILLS_RERANKER_URL — они приоритетнее). Endpoint ожидается OpenAI-совместимым: POST <embedding_url> с {\"input\": [...], \"model\": \"...\"}.",
+  "embedding_url": "http://ВАШ-ШЛЮЗ:8040/mercury/bge/v1/embeddings",
+  "reranker_url": "http://ВАШ-ШЛЮЗ:8040/mercury/reranker/v1/rerank"
+}
