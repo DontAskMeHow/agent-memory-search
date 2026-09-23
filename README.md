@@ -1,36 +1,37 @@
 # agent-memory-search
 
-Hybrid search engine for AI-agent knowledge bases and session logs:
-keyword BM25 (SQLite FTS5 + Snowball stemmers for Russian and English),
-vector search (sqlite-vec + BGE-M3 embeddings via any OpenAI-compatible
-endpoint), reciprocal rank fusion, optional cross-encoder reranking, and
-confidence-based abstention calibrated on golden queries.
+Гибридный поисковый движок для баз знаний ИИ-агентов и журналов сессий:
+ключевые слова BM25 (SQLite FTS5 + стеммеры Snowball для русского и английского),
+векторный поиск (sqlite-vec + эмбеддинги BGE-M3 через любой OpenAI-совместимый
+эндпоинт), слияние по reciprocal rank fusion, опциональный реранкинг
+крос-энкодером и отказ от ответа по уверенности, откалиброванный на
+«золотых» запросах.
 
-The engine manages long-term memory of AI agents stored as local Markdown
-records (`<topic>/SKILL.md` with YAML frontmatter), but it is domain-agnostic:
-any directory of Markdown files can be indexed.
+Движок обслуживает долговременную память ИИ-агентов, хранимую как локальные
+Markdown-записи (`<тема>/SKILL.md` с YAML-frontmatter), но к предметной
+области не привязан: проиндексировать можно любой каталог Markdown-файлов.
 
-## Components
+## Компоненты
 
-| Part | Path | Purpose |
+| Часть | Путь | Назначение |
 | --- | --- | --- |
-| Search CLI | `tools/skills-search.py` | `index` / `search` / `status` / `reindex` over a knowledge base |
-| Search core | `tools/search_core.py` | BM25, vector index, RRF fusion, rerank, abstention |
-| Markdown chunker | `tools/chunker_md.py` | heading- and fence-aware chunking of Markdown |
-| Project search | `tools/project_search.py` | hybrid search over project docs and source comments |
-| Session search | `session-search/` | incremental indexing of AI-agent session logs (JSONL), own CLI + MCP server |
-| MCP servers | `tools/skills_search_mcp.py`, `session-search/mcp_server.py` | expose search to MCP clients |
-| Maintenance | `skills-maintain.py`, `skills-enrich.py`, `skills-graph.py`, `tasks.py` | lint, LLM enrichment, entity graph, task layer |
+| Поисковый CLI | `tools/skills-search.py` | `index` / `search` / `status` / `reindex` по базе знаний |
+| Ядро поиска | `tools/search_core.py` | BM25, векторный индекс, слияние RRF, реранкинг, отказ по уверенности |
+| Чанкер Markdown | `tools/chunker_md.py` | разбиение Markdown по заголовкам и блокам кода |
+| Поиск по проекту | `tools/project_search.py` | гибридный поиск по документам проекта и комментариям исходников |
+| Поиск по сессиям | `session-search/` | инкрементальная индексация журналов сессий агентов (JSONL), свой CLI + MCP-сервер |
+| MCP-серверы | `tools/skills_search_mcp.py`, `session-search/mcp_server.py` | публикация поиска для MCP-клиентов |
+| Обслуживание | `skills-maintain.py`, `skills-enrich.py`, `skills-graph.py`, `tasks.py` | линт, LLM-обогащение, граф сущностей, слой задач |
 
-## Quick start
+## Быстрый старт
 
-Requires Python 3.11+.
+Требуется Python 3.11+.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Point the engine at a knowledge base (directory of record folders):
+Укажите движку базу знаний (каталог папок-записей):
 
 ```bash
 export SKILLS_ROOT=/path/to/knowledge
@@ -39,29 +40,30 @@ python tools/skills-search.py index
 python tools/skills-search.py search "vllm offload" --json
 ```
 
-For vector search and reranking, provide embedding/reranker endpoints — copy
-`config/skills-gateway.example.json` to `~/.config/skills-gateway.json`, or set
-`SKILLS_EMBEDDING_URL` / `SKILLS_RERANKER_URL` (OpenAI-compatible endpoints).
-Without endpoints the engine still works in keyword mode:
+Для векторного поиска и реранкинга нужны адреса эмбеддера и реранкера —
+скопируйте `config/skills-gateway.example.json` в `~/.config/skills-gateway.json`
+или задайте переменные `SKILLS_EMBEDDING_URL` / `SKILLS_RERANKER_URL`
+(OpenAI-совместимые эндпоинты). Без эндпоинтов движок работает в режиме
+ключевых слов:
 
 ```bash
 python tools/skills-search.py search "запрос" --mode keyword
 ```
 
-Session search indexes JSONL session logs of AI-agents (layout is
-configurable):
+Поиск по сессиям индексирует JSONL-журналы сессий агентов (раскладка
+настраивается):
 
 ```bash
 python session-search/scripts/session_search.py index
 python session-search/scripts/session_search.py search "past work" --top-k 5
 ```
 
-## Tests
+## Тесты
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-## License
+## Лицензия
 
-MIT — see [LICENSE](LICENSE).
+MIT — см. [LICENSE](LICENSE).
